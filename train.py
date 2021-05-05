@@ -70,11 +70,11 @@ def create_model():
     model.add(layers.Flatten())
     
     model.add(layers.Dense(256, activation='relu'))
-    model.add(layers.Dropout(0.5))
+    model.add(layers.Dropout(0.3))
     model.add(layers.BatchNormalization())
     
     model.add(layers.Dense(256, activation='relu'))
-    model.add(layers.Dropout(0.5))
+    model.add(layers.Dropout(0.3))
     model.add(layers.BatchNormalization())
     
     model.add(layers.Dense(9, activation='softmax'))
@@ -92,7 +92,7 @@ def main():
     model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 
     shutil.rmtree(log_dir) 
-    stopping_callback = tf.keras.callbacks.EarlyStopping(monitor='val_accuracy', min_delta=0.01, patience=10, restore_best_weights=True)
+    stopping_callback = tf.keras.callbacks.EarlyStopping(monitor='val_accuracy', min_delta=0.001, patience=10, restore_best_weights=True)
     tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir = './tensorboard_logs', histogram_freq = 1)
     
     model.fit(x=train_ds, epochs=num_epochs, batch_size=batch_size, validation_data=valid_ds, callbacks=[stopping_callback, tensorboard_callback])
