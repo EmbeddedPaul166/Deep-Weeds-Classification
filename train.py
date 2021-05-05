@@ -69,7 +69,11 @@ def create_model():
     
     model.add(layers.Flatten())
     
-    model.add(layers.Dense(1024, activation='relu'))
+    model.add(layers.Dense(256, activation='relu'))
+    model.add(layers.Dropout(0.5))
+    model.add(layers.BatchNormalization())
+    
+    model.add(layers.Dense(256, activation='relu'))
     model.add(layers.Dropout(0.5))
     model.add(layers.BatchNormalization())
     
