@@ -51,18 +51,29 @@ def create_model():
     model = models.Sequential()
     model.add(layers.Conv2D(64, (3, 3), padding='same', activation='relu', input_shape=(64, 64, 3)))
     model.add(layers.Conv2D(64, (3, 3), padding='same',  activation='relu'))
+    model.add(layers.BatchNormalization())
     model.add(layers.MaxPooling2D((2, 2)))
+    
     model.add(layers.Conv2D(128, (3, 3), padding='same',  activation='relu'))
     model.add(layers.Conv2D(128, (3, 3), padding='same',  activation='relu'))
+    model.add(layers.BatchNormalization())
     model.add(layers.MaxPooling2D((2, 2)))
+    
     model.add(layers.Conv2D(256, (3, 3), padding='same',  activation='relu'))
     model.add(layers.Conv2D(256, (3, 3), padding='same',  activation='relu'))
+    model.add(layers.BatchNormalization())
     model.add(layers.MaxPooling2D((2, 2)))
+    
     model.add(layers.Flatten())
+    
     model.add(layers.Dense(1024, activation='relu'))
     model.add(layers.Dropout(0.5))
+    model.add(layers.BatchNormalization())
+    
     model.add(layers.Dense(1024, activation='relu'))
-    model.add(layers.Dropout(0.5))
+    model.add(layers.Dropout(0.5)) 
+    model.add(layers.BatchNormalization())
+    
     model.add(layers.Dense(9, activation='softmax'))
     
     return model
