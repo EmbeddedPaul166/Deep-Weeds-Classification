@@ -70,10 +70,6 @@ def create_model():
     model.add(layers.Dropout(0.5))
     model.add(layers.BatchNormalization())
     
-    model.add(layers.Dense(1024, activation='relu'))
-    model.add(layers.Dropout(0.5)) 
-    model.add(layers.BatchNormalization())
-    
     model.add(layers.Dense(9, activation='softmax'))
     
     return model
