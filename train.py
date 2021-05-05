@@ -14,6 +14,9 @@ def preprocess_training_data(dictionary):
     image = tf.image.resize(image, [64, 64])
     image = tf.image.random_flip_left_right(image)
     image = tf.image.random_flip_up_down(image)
+    image = tf.image.random_contrast(image, 0.6, 1.4)
+    image = tf.image.random_brightness(image, 0.3)
+    image = tf.clip_by_value(image, 0, 1)
     
     return image, label
 
