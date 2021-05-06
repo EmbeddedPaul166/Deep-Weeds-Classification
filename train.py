@@ -36,9 +36,7 @@ def prepare_input_pipeline(batch_size, shuffle_buffer_size):
     valid_ds = valid_ds.map(preprocess_data, num_parallel_calls=tf.data.experimental.AUTOTUNE)
     test_ds = test_ds.map(preprocess_data, num_parallel_calls=tf.data.experimental.AUTOTUNE)
    
-    train_ds = train_ds.shuffle(shuffle_buffer_size)
-    valid_ds = valid_ds.shuffle(shuffle_buffer_size)
-    test_ds = test_ds.shuffle(shuffle_buffer_size)
+    train_ds = train_ds.shuffle(shuffle_buffer_size, reshuffle_each_iteration=True)
     
     train_ds = train_ds.batch(batch_size)
     valid_ds = valid_ds.batch(batch_size)
@@ -87,9 +85,10 @@ def create_model():
 def main():
     batch_size = 64
     num_epochs = 10000
+    shuffle_buffer_size = 13131
     log_dir = './tensorboard_logs'
     
-    train_ds, valid_ds, test_ds = prepare_input_pipeline(batch_size, batch_size * 3)
+    train_ds, valid_ds, test_ds = prepare_input_pipeline(batch_size, shuffle_buffer_size)
     
     model = create_model()
     model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
