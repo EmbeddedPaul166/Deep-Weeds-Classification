@@ -53,16 +53,19 @@ def prepare_input_pipeline(batch_size, shuffle_buffer_size):
 def create_model():
     model = models.Sequential()
     model.add(layers.Conv2D(64, (3, 3), padding='same', activation='relu', input_shape=(64, 64, 3)))
+    model.add(layers.BatchNormalization())
     model.add(layers.Conv2D(64, (3, 3), padding='same',  activation='relu'))
     model.add(layers.BatchNormalization())
     model.add(layers.MaxPooling2D((2, 2)))
     
     model.add(layers.Conv2D(128, (3, 3), padding='same',  activation='relu'))
+    model.add(layers.BatchNormalization())
     model.add(layers.Conv2D(128, (3, 3), padding='same',  activation='relu'))
     model.add(layers.BatchNormalization())
     model.add(layers.MaxPooling2D((2, 2)))
     
     model.add(layers.Conv2D(256, (3, 3), padding='same',  activation='relu'))
+    model.add(layers.BatchNormalization())
     model.add(layers.Conv2D(256, (3, 3), padding='same',  activation='relu'))
     model.add(layers.BatchNormalization())
     model.add(layers.MaxPooling2D((2, 2)))
@@ -92,7 +95,7 @@ def main():
     model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 
     shutil.rmtree(log_dir) 
-    stopping_callback = tf.keras.callbacks.EarlyStopping(monitor='val_accuracy', min_delta=0.001, patience=10, restore_best_weights=True)
+    stopping_callback = tf.keras.callbacks.EarlyStopping(monitor='val_accuracy', min_delta=0.001, patience=25, restore_best_weights=True)
     tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir = './tensorboard_logs', histogram_freq = 1)
     
     model.fit(x=train_ds, epochs=num_epochs, batch_size=batch_size, validation_data=valid_ds, callbacks=[stopping_callback, tensorboard_callback])
